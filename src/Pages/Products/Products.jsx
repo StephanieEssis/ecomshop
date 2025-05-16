@@ -10,7 +10,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         // Requête pour obtenir les produits depuis l'API
-        const res = await axios.get('http://localhost:5000/api/products');
+        const res = await axios.get('https://ecomback-2-ieuo.onrender.com/api/products');
         setProducts(res.data); // Mise à jour de l'état avec les produits récupérés
         setError(null); // Réinitialiser l'erreur si les données sont récupérées avec succès
       } catch (error) {

@@ -6,38 +6,34 @@ import { useSelector } from 'react-redux';
 const Checkout = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { cartItems, total } = useSelector((state) => state.cart); // Assurez-vous que cartItems et total existent
+  const { cartItems, total } = useSelector((state) => state.cart);
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!stripe || !elements) {
-      // Stripe.js n'est pas encore chargé.
-      return;
-    }
-    setLoading(true);
 
-    // Créez un objet de paiement ici, comme un paiement via CardElement
+    if (!stripe || !elements) return;
+
+    setLoading(true);
+    setError(null); // Réinitialise les erreurs à chaque soumission
+
     const cardElement = elements.getElement(CardElement);
 
-    // Logique pour créer un paiement
     try {
       const { token, error: stripeError } = await stripe.createToken(cardElement);
+
       if (stripeError) {
         setError(stripeError.message);
-        setLoading(false);
-        return;
+      } else {
+        console.log('✅ Token créé :', token);
+        // TODO : Envoyer le token au backend pour traitement
+        // await axios.post('/api/payment', { token });
       }
-
-      // Traitement du token avec votre backend ici
-      console.log('Token créé : ', token);
-
-      // Rediriger ou afficher un message de succès
-      setLoading(false);
-    } catch (err) {
-      setError('Erreur lors de la création du paiement');
+    } catch {
+      setError('Une erreur est survenue lors du paiement.');
+    } finally {
       setLoading(false);
     }
   };
@@ -45,6 +41,7 @@ const Checkout = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-yellow-200 rounded-lg shadow-lg mt-8">
       <h2 className="text-3xl font-bold text-gray-800 mb-4">Résumé de la commande</h2>
+      
       <ul className="space-y-2 mb-6">
         {cartItems.map((item, index) => (
           <li key={index} className="flex justify-between items-center border-b py-2">

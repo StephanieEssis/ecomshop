@@ -18,7 +18,7 @@ const AddProduct = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post("https://ecommerceserver-2.onrender.com/api/products", product);
+      await axios.post("https://ecomback-2-ieuo.onrender.com/api/products", product);
       alert("Produit ajouté !");
     } catch (err) {
       console.error(err);

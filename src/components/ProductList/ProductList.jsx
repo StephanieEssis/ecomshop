@@ -13,7 +13,7 @@ const ProductList = ({ category }) => {
     const fetchProducts = async () => {
       try {
         // const res = await axios.get('https://ecommerceserver-2.onrender.com//api/products');
-         const res = await axios.get('http://localhost:5000/api/products');
+         const res = await axios.get('https://ecomback-2-ieuo.onrender.com/api/products');
         // const res = await axios.get('/api/products');
 
         setProducts(res.data);
